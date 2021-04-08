@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 07-abr-2021 12:12:01 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="ec.puntonet.pincidencias.modelo.Cliente" table="cliente" catalog="mincidencias" optimistic-lock="version">
+        <id name="idCliente" type="java.lang.Integer">
+            <column name="id_cliente" />
+            <generator class="identity" />
+        </id>
+        <property name="nombreCli" type="string">
+            <column name="nombre_cli" length="200" />
+        </property>
+        <property name="identificacionCli" type="string">
+            <column name="identificacion_cli" length="45" not-null="true" unique="true" />
+        </property>
+        <property name="contactoPrincipalCli" type="string">
+            <column name="contacto_principal_cli" length="45" />
+        </property>
+        <property name="contactoSecundarioCli" type="string">
+            <column name="contacto_secundario_cli" length="45" />
+        </property>
+        <property name="direccionCli" type="string">
+            <column name="direccion_cli" length="500" />
+        </property>
+        <property name="mailCli" type="string">
+            <column name="mail_cli" length="200" />
+        </property>
+        <property name="tipoCli" type="java.lang.Integer">
+            <column name="tipo_cli" />
+        </property>
+        <property name="estadoCli" type="java.lang.Integer">
+            <column name="estado_cli" />
+        </property>
+        <property name="eliminadoCli" type="java.lang.Integer">
+            <column name="eliminado_cli" />
+        </property>
+        <property name="fechaRegistroCli" type="timestamp">
+            <column name="fecha_registro_cli" length="19" />
+        </property>
+        <set name="ipClientes" table="ip_cliente" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="cliente" not-null="true" />
+            </key>
+            <one-to-many class="ec.puntonet.pincidencias.modelo.IpCliente" />
+        </set>
+        <set name="tickets" table="ticket" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="cliente" not-null="true" />
+            </key>
+            <one-to-many class="ec.puntonet.pincidencias.modelo.Ticket" />
+        </set>
+    </class>
+</hibernate-mapping>

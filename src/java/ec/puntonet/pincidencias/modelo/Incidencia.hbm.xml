@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 07-abr-2021 12:12:01 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="ec.puntonet.pincidencias.modelo.Incidencia" table="incidencia" catalog="mincidencias" optimistic-lock="version">
+        <id name="idIncidencia" type="java.lang.Integer">
+            <column name="id_incidencia" />
+            <generator class="identity" />
+        </id>
+        <property name="nombreInc" type="string">
+            <column name="nombre_inc" length="200" />
+        </property>
+        <property name="departamentoInc" type="string">
+            <column name="departamento_inc" length="200" />
+        </property>
+        <property name="duracionInc" type="string">
+            <column name="duracion_inc" length="45" />
+        </property>
+        <property name="prioridadInc" type="string">
+            <column name="prioridad_inc" length="45" />
+        </property>
+        <property name="estadoInc" type="java.lang.Integer">
+            <column name="estado_inc" />
+        </property>
+        <set name="tickets" table="ticket" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="incidencia" not-null="true" />
+            </key>
+            <one-to-many class="ec.puntonet.pincidencias.modelo.Ticket" />
+        </set>
+    </class>
+</hibernate-mapping>

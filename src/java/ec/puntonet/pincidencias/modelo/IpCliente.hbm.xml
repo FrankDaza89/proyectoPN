@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 07-abr-2021 12:12:01 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="ec.puntonet.pincidencias.modelo.IpCliente" table="ip_cliente" catalog="mincidencias" optimistic-lock="version">
+        <id name="idIpCliente" type="java.lang.Integer">
+            <column name="id_ip_cliente" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="cliente" class="ec.puntonet.pincidencias.modelo.Cliente" fetch="select">
+            <column name="cliente" not-null="true" />
+        </many-to-one>
+        <many-to-one name="ips" class="ec.puntonet.pincidencias.modelo.Ips" fetch="select">
+            <column name="ips" not-null="true" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>

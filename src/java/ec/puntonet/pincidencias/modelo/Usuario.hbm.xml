@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 07-abr-2021 12:12:01 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="ec.puntonet.pincidencias.modelo.Usuario" table="usuario" catalog="mincidencias" optimistic-lock="version">
+        <id name="idUsuario" type="java.lang.Integer">
+            <column name="id_usuario" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="empleado" class="ec.puntonet.pincidencias.modelo.Empleado" fetch="select">
+            <column name="empleado" not-null="true" />
+        </many-to-one>
+        <property name="nombreUsu" type="string">
+            <column name="nombre_usu" length="45" />
+        </property>
+        <property name="claveUsu" type="string">
+            <column name="clave_usu" length="45" />
+        </property>
+        <property name="estadoUsu" type="java.lang.Integer">
+            <column name="estado_usu" />
+        </property>
+        <property name="fechaRegistroUsu" type="timestamp">
+            <column name="fecha_registro_usu" length="19" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 07-abr-2021 12:12:01 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="ec.puntonet.pincidencias.modelo.Empleado" table="empleado" catalog="mincidencias" optimistic-lock="version">
+        <id name="idEmpleado" type="java.lang.Integer">
+            <column name="id_empleado" />
+            <generator class="identity" />
+        </id>
+        <property name="nombreEmp" type="string">
+            <column name="nombre_emp" length="200" />
+        </property>
+        <property name="identificacionEmp" type="string">
+            <column name="identificacion_emp" length="20" not-null="true" unique="true" />
+        </property>
+        <property name="contactoEmp" type="string">
+            <column name="contacto_emp" length="45" />
+        </property>
+        <property name="mailEmp" type="string">
+            <column name="mail_emp" length="200" />
+        </property>
+        <property name="tipoEmp" type="java.lang.Integer">
+            <column name="tipo_emp" />
+        </property>
+        <property name="estadoEmp" type="java.lang.Integer">
+            <column name="estado_emp" />
+        </property>
+        <property name="eliminadoEmp" type="java.lang.Integer">
+            <column name="eliminado_emp" />
+        </property>
+        <property name="fechaRegistroEmp" type="timestamp">
+            <column name="fecha_registro_emp" length="19" />
+        </property>
+        <set name="usuarios" table="usuario" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="empleado" not-null="true" />
+            </key>
+            <one-to-many class="ec.puntonet.pincidencias.modelo.Usuario" />
+        </set>
+        <set name="tickets" table="ticket" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="empleado" not-null="true" />
+            </key>
+            <one-to-many class="ec.puntonet.pincidencias.modelo.Ticket" />
+        </set>
+    </class>
+</hibernate-mapping>

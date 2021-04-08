@@ -1,0 +1,70 @@
+/* global bootbox */
+
+function mostrarLoading() {
+    $("body").addClass("loading");
+}
+
+function ocultarLoading() {
+    $("body").removeClass("loading");
+}
+
+function mostrarMensajeRecargar(titulo, mensaje) {
+    bootbox.dialog({
+        closeButton: false,
+        message: "<p class='text-justify'>" + mensaje + "</p>",
+        title: "" + titulo + "",
+        buttons: {
+            danger: {
+                label: "OK",
+                className: "btn-primary",
+                callback: function () {
+                    document.location.reload();
+                }
+            }
+        }
+    });
+}
+
+function mostrarMensaje(titulo, mensaje) {
+    bootbox.dialog({
+        closeButton: false,
+        message: "<p class='text-justify'>" + mensaje + "</p>",
+        title: "" + titulo + "",
+        buttons: {
+            danger: {
+                label: "OK",
+                className: "btn-primary",
+                callback: function () {
+                    this.hide();
+                }
+            }
+        }
+    });
+}
+
+$(document).ready(function () {
+    var offset = 300,
+            offset_opacity = 1200,
+            scroll_top_duration = 700,
+            $back_to_top = $('.cd-top');
+
+    $(window).scroll(function () {
+        ($(this).scrollTop() > offset) ? $back_to_top.addClass('cd-is-visible') : $back_to_top.removeClass('cd-is-visible cd-fade-out');
+        if ($(this).scrollTop() > offset_opacity) {
+            $back_to_top.addClass('cd-fade-out');
+        }
+    });
+
+    $back_to_top.on('click', function (event) {
+        event.preventDefault();
+        $('body,html').animate({
+            scrollTop: 0
+        }, scroll_top_duration);
+    });
+
+    $(".panel").on('show.bs.collapse', function () {
+        $(this).parent().find(".fa").removeClass("fa-caret-right").addClass("fa-caret-down");
+    }).on('hide.bs.collapse', function () {
+        $(this).parent().find(".fa").removeClass("fa-caret-down").addClass("fa-caret-right");
+    });
+});

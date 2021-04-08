@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 07-abr-2021 12:12:01 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="ec.puntonet.pincidencias.modelo.Ticket" table="ticket" catalog="mincidencias" optimistic-lock="version">
+        <id name="idTicket" type="java.lang.Integer">
+            <column name="id_ticket" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="cliente" class="ec.puntonet.pincidencias.modelo.Cliente" fetch="select">
+            <column name="cliente" not-null="true" />
+        </many-to-one>
+        <many-to-one name="empleado" class="ec.puntonet.pincidencias.modelo.Empleado" fetch="select">
+            <column name="empleado" not-null="true" />
+        </many-to-one>
+        <many-to-one name="incidencia" class="ec.puntonet.pincidencias.modelo.Incidencia" fetch="select">
+            <column name="incidencia" not-null="true" />
+        </many-to-one>
+        <property name="numeroTic" type="string">
+            <column name="numero_tic" length="45" not-null="true" unique="true" />
+        </property>
+        <property name="estadoTic" type="java.lang.Integer">
+            <column name="estado_tic" />
+        </property>
+        <property name="fechaRegistroTic" type="timestamp">
+            <column name="fecha_registro_tic" length="19" />
+        </property>
+        <property name="contactoComunicacionTic" type="string">
+            <column name="contacto_comunicacion_tic" length="45" />
+        </property>
+        <property name="medioComunicacionTic" type="string">
+            <column name="medio_comunicacion_tic" length="200" />
+        </property>
+        <property name="observacionTic" type="string">
+            <column name="observacion_tic" length="600" />
+        </property>
+        <property name="eliminadoTic" type="java.lang.Integer">
+            <column name="eliminado_tic" />
+        </property>
+    </class>
+</hibernate-mapping>

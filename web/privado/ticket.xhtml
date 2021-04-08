@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <h:head>
+        <title>Ticket</title>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>         
+        <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet"/>
+        <link rel="stylesheet" type="text/css" href="../recursos/css/plugins/bootstrap/bootstrap.min.css"/>                
+        <link rel="stylesheet" type="text/css" href="../recursos/css/plugins/bootstrap/font-awesome.min.css"/>
+        <link rel="stylesheet" type="text/css" href="../recursos/css/plugins/bootstrap/dataTables.bootstrap.css"/>
+        <link rel="stylesheet" type="text/css" href="../recursos/css/plugins/daterangepicker/daterangepicker.css"/>
+        <link rel="stylesheet" type="text/css" href="../recursos/css/custom/estilo.css"/>
+        <script type="text/javascript" src="../recursos/js/plugins/jquery/jquery.min.js"/>        
+        <script type="text/javascript" src="../recursos/js/plugins/bootstrap/bootbox.min.js"/>
+        <script type="text/javascript" src="../recursos/js/plugins/bootstrap/bootstrap.min.js"/>
+        <script type="text/javascript" src="../recursos/js/plugins/moment/moment.js"/>
+        <script type="text/javascript" src="../recursos/js/plugins/moment/moment-with-locales.js"/> 
+        <script type="text/javascript" src="../recursos/js/plugins/jquery/jquery.validate.js"/>
+        <script type="text/javascript" src="../recursos/js/plugins/jquery/daterangepicker.js"/>
+        <script type="text/javascript" src="../recursos/js/plugins/jquery/jquery.dataTables.min.js"/>
+        <script type="text/javascript" src="../recursos/js/plugins/bootstrap/dataTables.bootstrap.min.js"/>
+        <script type="text/javascript" src="../recursos/js/paginas/ticket.js"/>
+        <script type="text/javascript" src="../recursos/js/util/utilidades.js"/>
+    </h:head>
+    <h:body>
+        <div class="container" style="margin-top:60px">
+            <div class="row">
+                <div class="col-sm-3">
+                </div>
+                <div class="col-sm-9">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <h3>Gestión de Tickets</h3>
+                            <hr></hr>
+                            <h:form id="form" prependId="false">
+                                <div class="row ">
+                                    <div class="form-group text-center col-md-2">
+                                        <a id="btn-registro" class="btn btn-block btn-primary" data-toggle="modal" data-target="#registro"
+                                           data-backdrop="static" data-keyboard="false" onclick="validarTicket()"><i class="fa fa-plus-square" aria-hidden="true"></i> Nuevo Ticket</a>                                
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <h5><b>Parámetros de búsqueda</b></h5>
+                                        <p class="text-justify">Ingrese los parametros solicitados</p>
+                                    </div> 
+                                    <div class="form-group col-md-4">
+                                        <label for="ident-cliente-bus">Identificación Cliente:</label>
+                                        <input id="ident-cliente-bus" name="ident-cliente-bus" type="text" class="form-control busqueda"/>
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <label for="nombre-cliente-bus">Nombre Cliente:</label>
+                                        <input id="nombre-cliente-bus" name="nombre-cliente-bus" type="text" class="form-control busqueda"/>
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <label for="numero-ticket-bus">Número de Ticket:</label>
+                                        <input id="numero-ticket-bus" name="numero-ticket-bus" type="text" class="form-control busqueda"/>
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <label for="estado-ticket">Estado:</label>
+                                        <select id="estado-ticket" name="estado-ticket" class="form-control busqueda">
+                                            <option value="">- Elija uno -</option>
+                                            <option value="#{0}">Ticket Abiertos</option>
+                                            <option value="#{1}">Ticket Vencidos</option>
+                                            <option value="#{2}">Ticket Escalonados</option>
+                                            <option value="#{3}">Ticket Cerrados</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <label for="prioridad-ticket">Estado:</label>
+                                        <select id="prioridad-ticket" name="prioridad-ticket" class="form-control busqueda">
+                                            <option value="">- Elija uno -</option>
+                                            <option value="#{0}">Prioridad Baja</option>
+                                            <option value="#{1}">Prioridad Media</option>
+                                            <option value="#{2}">Prioridad Alta</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group col-md-12">
+                                        <a id="btn-buscar" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</a>
+                                    </div>
+                                    <div jsf:id="contenedor" class="form-group col-md-12 table-responsive">
+                                        <table id="tabla" class="">
+                                            <thead>
+                                                <tr>
+                                                     <th class="text-center"># Ticket</th>   
+                                                    <th class="text-center">Nombre Cliente</th>   
+                                                    <th class="text-center">Estado</th>
+                                                    <th class="text-center">Incidencia</th>
+                                                    <th class="text-center">Prioridad</th>
+                                                    <th class="text-center">Operador</th>
+                                                    <th class="text-center">Fecha de atención</th>
+                                                    <th class="text-center"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <ui:repeat value="#{ticketBean.tickets}" var="tickets">
+                                                    <tr id="#{tickets.idTicket}">                                                         
+                                                        <td class="text-center">#{tickets.numeroTic}</td> 
+                                                        <td class="text-center">#{tickets.cliente.nombreCli}</td> 
+                                                        <td class="text-center">#{tickets.estadoToString()}</td>  
+                                                        <td class="text-center">#{tickets.incidencia.nombreInc}</td>   
+                                                        <td class="text-center">#{tickets.incidencia.prioridadInc}</td>                                                    
+                                                        <td class="text-center">#{tickets.empleado.nombreEmp}</td>
+                                                        <td class="text-center">#{tickets.fechaRegistroTic}</td>
+                                                        <td class="text-center"></td>
+                                                    </tr>
+                                                </ui:repeat>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <h:inputHidden id="busqueda" value="#{ticketBean.busqueda}"/>
+                                <h:inputHidden id="idTicketSeleccionado" value="#{ticketBean.idTicketSeleccionado}"/>    
+                                <p:remoteCommand name="removerAsignacion" action="#{ticketBean.removerAsignacion()}" process="@form" update=":form"/>
+                                <p:remoteCommand name="obtenerTicket" action="#{ticketBean.obtenerTicket()}"  update=":ticket-form"/>
+                                <p:remoteCommand name="obtenerEstado" action="#{ticketBean.obtenerEstado()}"  update=":ticket-form"/>
+                                <p:remoteCommand name="buscar" action="#{ticketBean.buscar()}" update="contenedor"/>
+                            </h:form>
+                            <!--Dialogo para registro-->
+                            <div id="registro" class="modal fade" role="dialog">
+                                <h:form id="ticket-form" prependId="false">  
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button id="btn-cerrar" type="button" class="close" data-dismiss="modal">&#215;</button>
+                                                <h5 class="modal-title">Ticket</h5>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p class="text-justify">Los campos con * son obligatorios</p>
+                                                <div id="divTicket" class="row">   
+
+                                                    <div class="form-group col-md-6">
+                                                        <label for="clienteS-ticket">Cliente:</label>
+                                                        <select id="clienteS-ticket" name="clienteS-ticket" class="form-control">
+                                                            <option value="0">- Elija uno -</option>
+                                                            <ui:repeat value="#{ticketBean.clientes}" var="clientes">
+                                                                <option id="#{clientes.idCliente}" value="#{clientes.idCliente}">#{clientes.identificacionCli}-#{clientes.nombreCli}</option>
+                                                            </ui:repeat>
+                                                        </select>
+                                                    </div> 
+                                                    <div class="form-group col-md-12">
+                                                        <label id="lbl-contacto-ticket" for="contacto-ticket">*Contacto:</label>
+                                                        <input id="contacto-ticket" name="contacto-ticket" type="text"  class="form-control input-sm aux" jsf:value="#{ticketBean.contactoComunicacion}"/>
+                                                    </div>  
+
+                                                    <div class="form-group col-md-4">
+                                                        <label for="medio-comuni-ticket">Medio de comunicación</label>
+                                                        <select id="medio-comuni-ticket" name="medio-comuni-ticket" class="form-control busqueda">
+                                                            <option value="">- Elija uno -</option>
+                                                            <option id="PRESENCIAL" value="#{PRESENCIAL}">PRESENCIAL</option>
+                                                            <option id="WHATSAPP" value="#{WHATSAPP}">WHATSAPP</option>
+                                                            <option id="FACEBOOK" value="#{FACEBOOK}">FACEBOOK</option>
+                                                            <option id="CENTRALIP" value="#{CENTRALIP}">CENTRAL IP</option>
+                                                            <option id="PAGINAWEB" value="#{PAGINAWEB}">PAGINA WEB</option>
+                                                            <option id="MAIL" value="#{MAIL}">MAIL</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="incidencia-ticket">Tipo Incidencia:</label>
+                                                        <select id="incidencia-ticket" name="incidencia-ticket" class="form-control">
+                                                            <option value="0">- Elija uno -</option>
+                                                            <ui:repeat value="#{ticketBean.incidencias}" var="incidencias">
+                                                                <option id="#{incidencias.idIncidencia}" value="#{incidencias.idIncidencia}">#{incidencias.nombreInc}-#{incidencias.prioridadInc}</option>
+                                                            </ui:repeat>
+                                                        </select>
+                                                    </div>   
+                                                    <div class="form-group col-md-12">
+                                                        <label for="observ-ticket">Observación:</label>
+                                                        <input id="observ-ticket" name="observ-ticket" type="text" class="form-control input-sm aux" jsf:value="#{ticketBean.observacion}"/>
+                                                    </div>
+                                                </div>
+                                                <h:inputHidden id="banderaModo" value="#{ticketBean.banderaModo}"/>
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <a id="btn-ticket" type="button" class="btn btn-primary" onclick="validarTicket()"><i class="fa fa-user-plus" aria-hidden="true"></i> Aceptar</a>                        
+                                            </div>
+                                        </div>
+                                    </div>  
+                                    <h:inputHidden id="cliente-select" value="#{ticketBean.clienteSeleccionado}"/>
+                                    <h:inputHidden id="medios-select" value="#{ticketBean.medioComunicacion}"/>
+                                    <h:inputHidden id="incidencias-select" value="#{ticketBean.incidenciaSeleccionada}"/>                                                
+                                    <p:remoteCommand name="actualizarTicket" action="#{ticketBean.actualizarTicket()}" process="@form"  update=":form:contenedor"/>
+                                    <p:remoteCommand name="registrarTicket" action="#{ticketBean.registrarTicket()}" process="@form" update=":form:contenedor"/>
+                                    <p:remoteCommand name="limpiarVariables" action="#{ticketBean.limpiar()}" update="ticket-form"/>
+                                </h:form>
+                            </div>
+                            
+                             <!--Dialogo cambio de estado-->
+                            <div id="cambioestado" class="modal fade" role="dialog">
+                                <h:form id="ticket-estado-form" prependId="false">  
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button id="btn-cerrar" type="button" class="close" data-dismiss="modal">&#215;</button>
+                                                <h5 class="modal-title">Ticket</h5>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p class="text-justify">Los campos con * son obligatorios</p>
+                                                <div id="divTicket" class="row">                                                                                                                                                        
+                                                    <div class="form-group col-md-6">
+                                                        <label for="cambio-es-ticket">Estado Ticket:</label>
+                                                        <select id="cambio-es-ticket" name="cambio-es-ticket" class="form-control">                                                         
+                                                            <option id="" value="">- Elija uno -</option>
+                                                            <option id="0" value="#{0}">ABIERTO</option>
+                                                            <option id="1" value="#{1}">VENCIDO</option>
+                                                            <option id="2" value="#{2}">ESCALONADO</option>
+                                                            <option id="3" value="#{3}">CERRADO</option>                                                         
+                                                        </select>
+                                                    </div>   
+                                 
+                                                </div>                                           
+                                            </div>
+                                            <div class="modal-footer">
+                                                <a id="btn-ticket-estado" type="button" class="btn btn-primary" ><i class="fa fa-user-plus" aria-hidden="true"></i> Aceptar</a>                        
+                                            </div>
+                                        </div>
+                                    </div>                                                               
+                                    <h:inputHidden id="cambio-estado-select" value="#{ticketBean.cambioEstadoSeleccionado}"/>                                                
+                                    <p:remoteCommand name="cambiarEstado" action="#{ticketBean.cambioEstado()}" process="@form"  update=":form:contenedor"/>                                  
+                                    <p:remoteCommand name="limpiarVariables" action="#{ticketBean.limpiar()}" update="ticket-estado-form"/>
+                                </h:form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </h:body>
+</html>
